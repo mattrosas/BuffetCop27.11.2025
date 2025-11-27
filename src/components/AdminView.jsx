@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Storage from '../services/storage';
 import BuffetStaff from './BuffetStaff'; 
+import CooperadoraStaff from './CooperadoraStaff'; // IMPORTAMOS LA NUEVA VISTA
 
 export default function AdminView({ user }) {
   const navigate = useNavigate();
@@ -65,9 +66,14 @@ export default function AdminView({ user }) {
         <button className={`nav-link ${activeSection === 'pagos' ? 'active' : ''}`} onClick={() => setActiveSection('pagos')}>Pagos</button>
         <button className={`nav-link ${activeSection === 'socios' ? 'active' : ''}`} onClick={() => setActiveSection('socios')}>Socios</button>
         
-        {/* BOTÓN PERSONAL: SOLO VISIBLE PARA ADMIN BUFFET */}
+        {/* BOTÓN PERSONAL BUFFET */}
         {user.rol === 'admin_buffet' && (
             <button className={`nav-link ${activeSection === 'personal' ? 'active' : ''}`} onClick={() => setActiveSection('personal')}>👨‍🍳 Personal</button>
+        )}
+
+        {/* BOTÓN PERSONAL COOPERADORA (NUEVO) */}
+        {user.rol === 'admin_cooperadora' && (
+            <button className={`nav-link ${activeSection === 'personal_coop' ? 'active' : ''}`} onClick={() => setActiveSection('personal_coop')}>👥 Empleados</button>
         )}
       </nav>
 
@@ -88,22 +94,23 @@ export default function AdminView({ user }) {
           <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
             <button onClick={cerrarSesion} className="logout-btn">Cerrar Sesión</button>
             
-            {/* === BOTONES DEL ADMIN SUPREMO === */}
+            {/* ADMIN SUPREMO */}
             {user.email === 'Admin@example.com' && (
                 <>
-                    <button onClick={() => navigate('/registro')} className="action-btn" style={{fontSize: '12px', padding: '8px 15px'}}>
-                        + Crear Admin Buffet
-                    </button>
-                    <button onClick={() => navigate('/registro-cooperadora')} className="action-btn" style={{fontSize: '12px', padding: '8px 15px', backgroundColor: '#28a745'}}>
-                        + Crear Admin Cooperadora
-                    </button>
+                    <button onClick={() => navigate('/registro')} className="action-btn" style={{fontSize: '12px', padding: '8px 15px'}}>+ Crear Admin Buffet</button>
+                    <button onClick={() => navigate('/registro-cooperadora')} className="action-btn" style={{fontSize: '12px', padding: '8px 15px', backgroundColor: '#28a745'}}>+ Crear Admin Cooperadora</button>
                 </>
             )}
 
-            {/* === BOTÓN DEL ADMIN BUFFET === */}
+            {/* ADMIN BUFFET */}
             {user.rol === 'admin_buffet' && (
-                <button onClick={() => navigate('/registro-gerente')} className="action-btn" style={{fontSize: '12px', padding: '8px 15px', backgroundColor: '#ffc107', color: '#000'}}>
-                    + Crear Gerente
+                <button onClick={() => navigate('/registro-gerente')} className="action-btn" style={{fontSize: '12px', padding: '8px 15px', backgroundColor: '#ffc107', color: '#000'}}>+ Crear Gerente</button>
+            )}
+
+            {/* ADMIN COOPERADORA (NUEVO BOTÓN) */}
+            {user.rol === 'admin_cooperadora' && (
+                <button onClick={() => navigate('/registro-empleado-cooperadora')} className="action-btn" style={{fontSize: '12px', padding: '8px 15px', backgroundColor: '#17a2b8', color: '#fff'}}>
+                    + Crear Empleado
                 </button>
             )}
           </div>
@@ -111,8 +118,9 @@ export default function AdminView({ user }) {
 
         {activeSection === null && <div className="welcome-placeholder"><h3>Panel de Gestión</h3><p>Seleccione una opción del menú.</p></div>}
 
-        {/* VISTA DE PERSONAL (SOLO BUFFET) */}
+        {/* VISTAS ESPECÍFICAS */}
         {activeSection === 'personal' && <BuffetStaff />}
+        {activeSection === 'personal_coop' && <CooperadoraStaff />}
 
         {/* Tablas Normales */}
         {activeSection === 'menus' && <div className="box fade-in"><div className="box-header"><h3>Menús</h3><button className="action-btn" onClick={()=>setShowModalMenu(true)}>+ Nuevo</button></div><table><thead><tr><th>Fecha</th><th>Principal</th><th>Precio</th></tr></thead><tbody>{menus.map((m,i)=><tr key={i}><td>{m.fecha}</td><td>{m.principal}</td><td>${m.precio}</td></tr>)}</tbody></table></div>}
