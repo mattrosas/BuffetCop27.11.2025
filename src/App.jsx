@@ -4,7 +4,8 @@ import Header from './components/Header';
 import Login from './components/Login';
 import Register from './components/Register';
 import RegisterGerente from './components/RegisterGerente';
-import RegisterCooperadora from './components/RegisterCooperadora'; // NUEVO
+import RegisterCooperadora from './components/RegisterCooperadora'; 
+import RegisterCooperadoraEmployee from './components/RegisterCooperadoraEmployee'; // NUEVO
 import Dashboard from './components/Dashboard';
 
 function App() {
@@ -15,9 +16,10 @@ function App() {
         <Route path="/" element={<Login />} />
         
         {/* Rutas de Creación de Usuarios */}
-        <Route path="/registro" element={<Register />} /> {/* Crea Admin Buffet */}
-        <Route path="/registro-gerente" element={<RegisterGerente />} /> {/* Crea Gerente */}
-        <Route path="/registro-cooperadora" element={<RegisterCooperadora />} /> {/* Crea Admin Cooperadora */}
+        <Route path="/registro" element={<Register />} /> 
+        <Route path="/registro-gerente" element={<RegisterGerente />} /> 
+        <Route path="/registro-cooperadora" element={<RegisterCooperadora />} /> 
+        <Route path="/registro-empleado-cooperadora" element={<RegisterCooperadoraEmployee />} /> {/* NUEVO */}
         
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
