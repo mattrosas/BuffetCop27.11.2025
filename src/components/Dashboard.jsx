@@ -23,7 +23,7 @@ export default function Dashboard() {
     return <GerenteView user={user} />;
   }
 
-  // === ROL: ADMIN O ADMIN BUFFET (Vista Completa) ===
-  // AdminView maneja internamente qué botón de "Crear" mostrar
+  // === ROL: ADMIN, ADMIN BUFFET, ADMIN COOP O EMPLEADO COOP ===
+  // Todos ellos usan la vista principal, pero AdminView se encarga de ocultar botones
   return <AdminView user={user} />;
 }
